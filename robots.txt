@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://davi0047.github.io/aupe-site/sitemap.xml
