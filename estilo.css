@@ -131,7 +131,6 @@ small { font-size: .85em; opacity: .7; }
 .momento--direita { left: auto; right: var(--gutter); max-width: 520px; }
 .momento--centro { left: 50%; right: auto; transform: translate(-50%, 24px); text-align: center; width: min(640px, calc(100% - 2 * var(--gutter))); }
 .momento--centro.ativo { transform: translate(-50%, 0); }
-.abertura-logo { height: clamp(40px, 4.4vw, 64px); width: auto; margin-bottom: 22px; }
 .titulo-abertura { font-size: clamp(30px, 4.2vw, 64px); margin-bottom: .35em; }
 .apoio { font-size: clamp(15px, 1.2vw, 19px); margin: 0; }
 .destaque { font-family: var(--fonte-titulo); font-weight: 600; letter-spacing: -.03em; font-size: clamp(24px, 2.7vw, 40px); line-height: 1.18; color: var(--texto); margin: 0 0 .7em; }
