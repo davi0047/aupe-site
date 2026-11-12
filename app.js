@@ -320,11 +320,14 @@
 
       botao.disabled = true;
       avisar("Enviando…");
+      const limite = new AbortController();
+      const relogio = setTimeout(() => limite.abort(), 20000); // não deixa o "Enviando…" preso
       try {
         const r = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json", Accept: "application/json" },
           body: JSON.stringify(corpo),
+          signal: limite.signal,
         });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || j.success === false || j.success === "false") throw new Error(j.message || r.status);
@@ -332,8 +335,25 @@
         avisar("Pedido recebido! A AUPE vai responder pelo e-mail ou WhatsApp informado.", "ok");
       } catch (e) {
         console.warn("Falha no envio do formulário:", e);
-        avisar("Não foi possível enviar agora. Fale com a AUPE pelo WhatsApp: (51) 99725-0514.", "falha");
+        // Plano B: o pedido não se perde. Abre o WhatsApp com tudo que a pessoa preencheu.
+        const texto = [
+          "Olá, AUPE! Quero solicitar um orçamento.",
+          `Nome: ${dados.nome || ""}`,
+          `E-mail: ${dados.email || ""}`,
+          `WhatsApp: ${dados.whatsapp || ""}`,
+          dados.tipo_de_servico && `Serviço: ${dados.tipo_de_servico}`,
+          dados.data_prevista && `Data prevista: ${dados.data_prevista.split("-").reverse().join("/")}`,
+          dados.descricao && `Projeto: ${dados.descricao}`,
+        ].filter(Boolean).join("\n");
+        avisar("O envio por e-mail falhou agora. Mande o mesmo pedido pelo WhatsApp, já está escrito.", "falha");
+        const link = document.createElement("a");
+        link.href = `https://wa.me/${S.whatsapp.numero}?text=${encodeURIComponent(texto)}`;
+        link.target = "_blank"; link.rel = "noopener";
+        link.className = "botao form-whats";
+        link.textContent = "Enviar pelo WhatsApp";
+        status.append(link);
       } finally {
+        clearTimeout(relogio);
         botao.disabled = false;
       }
     });

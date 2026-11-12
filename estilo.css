@@ -323,6 +323,7 @@ body:not(.demo) .so-demo { display: none !important; }
 .form-status { min-height: 1.4em; margin: 0; font-size: 14px; }
 .form-status.ok { color: #9ff0c0; }
 .form-status.falha { color: #ffb0aa; }
+.form-status .form-whats { display: flex; width: fit-content; margin-top: 12px; }
 .canais { position: sticky; top: 100px; }
 .canais-logo { height: 40px; width: auto; }
 .canais-nome { margin: 10px 0 26px; font-weight: 500; color: var(--texto); }
